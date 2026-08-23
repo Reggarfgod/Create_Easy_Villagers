@@ -6,7 +6,7 @@
 	"render_type": "cutout",
 	"textures": {
 		"1": "block/glass",
-		"6": "easy_villagers:block/farm",
+		"6": "create:block/andesite_block",
 		"7": "create:block/andesite_block",
 		"particle": "minecraft:block/iron_block",
 		"casing": "create:block/andesite_casing",

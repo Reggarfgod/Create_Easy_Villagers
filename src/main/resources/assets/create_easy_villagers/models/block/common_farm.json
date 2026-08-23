@@ -4,8 +4,8 @@
 	"render_type": "cutout",
 	"textures": {
 		"1": "minecraft:block/glass",
-		"2": "minecraft:block/iron_block",
-		"6": "easy_villagers:block/farm",
+		"2": "create:block/andesite_block",
+		"6": "create:block/andesite_block",
 		"particle": "minecraft:block/iron_block"
 	},
 	"elements": [

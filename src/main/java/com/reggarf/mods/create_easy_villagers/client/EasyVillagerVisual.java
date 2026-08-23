@@ -1,7 +1,6 @@
 package com.reggarf.mods.create_easy_villagers.client;
 
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityVisual;
 import com.simibubi.create.content.kinetics.base.RotatingInstance;
@@ -20,7 +19,7 @@ import java.util.function.Consumer;
 
 /**
  * Flywheel visual instance for Easy Villagers blocks.
- * Implements kinetic rotation of AllPartialModels.SHAFT_HALF on the power input side,
+ * Implements kinetic rotation of ModPartialModels.SHAFT_QUARTER on the power input side,
  * synchronized perfectly with Create's rotation offset grid.
  */
 public class EasyVillagerVisual<T extends FakeWorldTileentity> extends AbstractBlockEntityVisual<T> implements SimpleTickableVisual {
@@ -38,7 +37,7 @@ public class EasyVillagerVisual<T extends FakeWorldTileentity> extends AbstractB
         if (powerSide != null) {
             rotatingShaft = instancerProvider().instancer(
                     AllInstanceTypes.ROTATING,
-                    Models.partial(AllPartialModels.SHAFT_HALF)
+                    Models.partial(ModPartialModels.SHAFT_QUARTER)
             ).createInstance()
             .rotateToFace(Direction.SOUTH, powerSide)
             .setPosition(getVisualPosition());
