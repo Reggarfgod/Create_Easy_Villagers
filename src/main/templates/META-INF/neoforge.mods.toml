@@ -68,8 +68,8 @@ side = "BOTH"
 modId = "minecraft"
 type = "required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "${minecraft_version_range}"
-ordering = "NONE"
+versionRange = "[1.1.42,)"
+ordering = "AFTER"
 side = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
@@ -77,3 +77,12 @@ side = "BOTH"
 # stop your mod loading on the server for example.
 #[features."${mod_id}"]
 #openGLVersion="[3.2,)"
+
+[[dependencies."${mod_id}"]]
+modId = "easy_villagers"
+type = "required"
+# This version range declares a minimum of the current minecraft version up to but not including the next major version
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+

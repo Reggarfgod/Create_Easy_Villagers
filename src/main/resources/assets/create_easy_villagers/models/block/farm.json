@@ -1,14 +1,15 @@
 {
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"ambientocclusion": false,
 	"render_type": "cutout",
 	"textures": {
-		"1": "minecraft:block/glass",
-		"2": "minecraft:block/iron_block",
+		"1": "block/glass",
 		"6": "create:block/brass_block",
+		"particle": "create:block/brass_block",
 		"casing": "create:block/andesite_casing",
-		"axis": "create:block/axis",
-		"particle": "create:block/brass_block"
+		"axis": "create:block/gearbox"
 	},
 	"elements": [
 		{
@@ -26,8 +27,8 @@
 		},
 		{
 			"name": "bottom_frame_south",
-			"from": [0, 0, 15],
-			"to": [16, 1, 16],
+			"from": [0, 0, 14.5],
+			"to": [16, 1, 15.5],
 			"shade": false,
 			"faces": {
 				"east": {"uv": [15, 15, 16, 16], "texture": "#6"},
@@ -40,7 +41,7 @@
 		{
 			"name": "bottom_frame_west",
 			"from": [0, 0, 1],
-			"to": [1, 1, 15],
+			"to": [1, 1, 14.5],
 			"shade": false,
 			"faces": {
 				"west": {"uv": [15, 1, 16, 15], "rotation": 270, "texture": "#6"},
@@ -51,7 +52,7 @@
 		{
 			"name": "bottom_frame_east",
 			"from": [15, 0, 1],
-			"to": [16, 1, 15],
+			"to": [16, 1, 14.5],
 			"shade": false,
 			"faces": {
 				"east": {"uv": [0, 1, 1, 15], "rotation": 90, "texture": "#6"},
@@ -75,8 +76,8 @@
 		},
 		{
 			"name": "frame_south",
-			"from": [0, 15, 15],
-			"to": [16, 16, 16],
+			"from": [0, 15, 14.5],
+			"to": [16, 16, 15.5],
 			"shade": false,
 			"faces": {
 				"north": {"uv": [4, 0, 5, 16], "rotation": 90, "texture": "#6"},
@@ -90,7 +91,7 @@
 		{
 			"name": "frame_east",
 			"from": [15, 15, 1],
-			"to": [16, 16, 15],
+			"to": [16, 16, 14.5],
 			"shade": false,
 			"faces": {
 				"east": {"uv": [4, 1, 5, 15], "rotation": 90, "texture": "#6"},
@@ -102,7 +103,7 @@
 		{
 			"name": "frame_west",
 			"from": [0, 15, 1],
-			"to": [1, 16, 15],
+			"to": [1, 16, 14.5],
 			"shade": false,
 			"faces": {
 				"east": {"uv": [4, 1, 5, 15], "rotation": 90, "texture": "#6"},
@@ -122,9 +123,9 @@
 			}
 		},
 		{
-			"name": "front_south",
-			"from": [1, 1, 15],
-			"to": [15, 15, 16],
+			"name": "front_south_recessed",
+			"from": [1, 1, 14.5],
+			"to": [15, 15, 15.5],
 			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 9, 8]},
 			"faces": {
@@ -135,7 +136,7 @@
 		{
 			"name": "front_west",
 			"from": [0, 1, 1],
-			"to": [1, 15, 15],
+			"to": [1, 15, 14.5],
 			"shade": false,
 			"faces": {
 				"east": {"uv": [1, 1, 15, 15], "texture": "#1"},
@@ -145,7 +146,7 @@
 		{
 			"name": "front_east",
 			"from": [15, 1, 1],
-			"to": [16, 15, 15],
+			"to": [16, 15, 14.5],
 			"shade": false,
 			"faces": {
 				"east": {"uv": [1, 1, 15, 15], "texture": "#1"},
@@ -155,7 +156,7 @@
 		{
 			"name": "front_top",
 			"from": [1, 15, 1],
-			"to": [15, 16, 15],
+			"to": [15, 16, 14.5],
 			"shade": false,
 			"faces": {
 				"up": {"uv": [1, 1, 15, 15], "texture": "#1"},
@@ -176,7 +177,7 @@
 		{
 			"name": "back_base",
 			"from": [1, 0, 8],
-			"to": [15, 1, 15],
+			"to": [15, 1, 14.5],
 			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [9, 8, 16]},
 			"faces": {
@@ -198,8 +199,8 @@
 		},
 		{
 			"name": "frame_south_west",
-			"from": [0, 1, 15],
-			"to": [1, 15, 16],
+			"from": [0, 1, 14.5],
+			"to": [1, 15, 15.5],
 			"shade": false,
 			"faces": {
 				"north": {"uv": [0, 1, 1, 15], "texture": "#6"},
@@ -210,8 +211,8 @@
 		},
 		{
 			"name": "frame_north_east",
-			"from": [15, 1, 15],
-			"to": [16, 15, 16],
+			"from": [15, 1, 14.5],
+			"to": [16, 15, 15.5],
 			"shade": false,
 			"faces": {
 				"north": {"uv": [0, 1, 1, 15], "texture": "#6"},
