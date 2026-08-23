@@ -60,7 +60,7 @@ public class CreateEasyVillagersConfig {
 
             ironFarmStressImpact = builder
                     .comment("Stress impact (SU/RPM) for the Iron Farm.")
-                    .defineInRange("ironFarm", 8.0D, 0.0D, 1024.0D);
+                    .defineInRange("ironFarm", 14.0D, 0.0D, 1024.0D);
 
             builder.pop();
         }
@@ -108,6 +108,6 @@ public class CreateEasyVillagersConfig {
     }
 
     public static float getIronFarmStress() {
-        return CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 8.0f;
+        return CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 14.0f;
     }
 }

@@ -31,7 +31,7 @@ $$\text{Speed Multiplier} = \min\left(\left\lfloor \frac{\text{RPM}}{\text{rpmPe
 *(By default: $\text{rpmPerMultiplier} = 32$, $\text{maxMultiplier} = 16$)*
 
 | Speed (RPM) | Multiplier | Operation Speed | Efficiency Boost |
-| :---: | :---: | :---: | :---: |
+| :--- : | :---: | :---: | :---: |
 | **< 32 RPM** | **0×** | *Halted / Idle* | *No production* |
 | **32 RPM** | **1×** | Standard Baseline | Baseline (100%) |
 | **64 RPM** | **2×** | **2× faster** | 200% Output |
@@ -89,8 +89,8 @@ $$\text{Stress Impact (SU)} = \text{Speed (RPM)} \times \text{Base Impact (SU/RP
 ---
 
 ### 6. ⚔️ Iron Farm
-* **Base Stress Impact:** `8.0 SU / RPM`
-* **Default Stress at 256 RPM:** **`2,048 SU`**
+* **Base Stress Impact:** `14.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`3,584 SU`**
 * **Effect:** Accelerates Iron Golem scare, spawn, and processing intervals. A cycle normally taking ~5 minutes (300 seconds) completes every **~37.5 seconds (8× faster)** at 256 RPM, generating **8 times more iron**.
 * **Goggles Diagnostic:** `Iron Output Rate`
 
@@ -130,8 +130,8 @@ Configuration file is located at `config/create_easy_villagers-common.toml`:
     # Stress impact (SU/RPM) for the Incubator (Default: 4.0)
     incubator = 4.0
 
-    # Stress impact (SU/RPM) for the Iron Farm (Default: 8.0)
-    ironFarm = 8.0
+    # Stress impact (SU/RPM) for the Iron Farm (Default: 14.0)
+    ironFarm = 14.0
 ```
 
 ---
