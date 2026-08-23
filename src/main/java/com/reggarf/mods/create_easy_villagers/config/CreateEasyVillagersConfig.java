@@ -59,11 +59,11 @@ public class CreateEasyVillagersConfig {
 
             breederStressImpact = builder
                     .comment("Custom stress impact (SU/RPM) for the Breeder.")
-                    .defineInRange("breeder", 6.0D, 0.0D, 2048.0D);
+                    .defineInRange("breeder", 4.0D, 0.0D, 2048.0D);
 
             converterStressImpact = builder
                     .comment("Custom stress impact (SU/RPM) for the Converter.")
-                    .defineInRange("converter", 6.0D, 0.0D, 2048.0D);
+                    .defineInRange("converter", 4.0D, 0.0D, 2048.0D);
 
             incubatorStressImpact = builder
                     .comment("Custom stress impact (SU/RPM) for the Incubator.")
@@ -71,7 +71,7 @@ public class CreateEasyVillagersConfig {
 
             ironFarmStressImpact = builder
                     .comment("Custom stress impact (SU/RPM) for the Iron Farm.")
-                    .defineInRange("ironFarm", 14.0D, 0.0D, 2048.0D);
+                    .defineInRange("ironFarm", 6.0D, 0.0D, 2048.0D);
 
             builder.pop();
         }
@@ -113,12 +113,12 @@ public class CreateEasyVillagersConfig {
     }
 
     public static float getBreederStress() {
-        float base = CONFIG != null && CONFIG.breederStressImpact != null ? CONFIG.breederStressImpact.get().floatValue() : 6.0f;
+        float base = CONFIG != null && CONFIG.breederStressImpact != null ? CONFIG.breederStressImpact.get().floatValue() : 4.0f;
         return base * getGlobalStressMultiplier();
     }
 
     public static float getConverterStress() {
-        float base = CONFIG != null && CONFIG.converterStressImpact != null ? CONFIG.converterStressImpact.get().floatValue() : 6.0f;
+        float base = CONFIG != null && CONFIG.converterStressImpact != null ? CONFIG.converterStressImpact.get().floatValue() : 4.0f;
         return base * getGlobalStressMultiplier();
     }
 
@@ -128,7 +128,7 @@ public class CreateEasyVillagersConfig {
     }
 
     public static float getIronFarmStress() {
-        float base = CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 14.0f;
+        float base = CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 6.0f;
         return base * getGlobalStressMultiplier();
     }
 }
