@@ -2,7 +2,6 @@ package com.reggarf.mods.create_easy_villagers.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityVisual;
 
@@ -53,7 +52,7 @@ public class EasyVillagerRenderer<T extends FakeWorldTileentity> implements Bloc
                 float angle = ((time * speed * 3f / 10f + offset) % 360f) / 180f * (float) Math.PI;
 
                 BlockState state = be.getBlockState();
-                CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, state, powerSide)
+                CachedBuffers.partialFacing(ModPartialModels.SHAFT_QUARTER, state, powerSide)
                         .rotateCentered(angle, Direction.get(Direction.AxisDirection.POSITIVE, powerSide.getAxis()))
                         .light(light)
                         .renderInto(ms, vb);
