@@ -16,7 +16,8 @@
         "ModTileEntitiesClientMixin",
         "BlockStateModelLoaderMixin",
         "ModelBakeryMixin",
-        "ConverterRendererMixin"
+        "ConverterRendererMixin",
+        "IronFarmRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
