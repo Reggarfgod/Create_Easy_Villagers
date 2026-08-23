@@ -1,6 +1,7 @@
 package com.reggarf.mods.create_easy_villagers;
 
 import com.mojang.logging.LogUtils;
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersClientIniter;
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -15,6 +16,7 @@ public class Create_easy_villagers {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public Create_easy_villagers(IEventBus modEventBus, ModContainer modContainer) {
+        modEventBus.addListener(CreateEasyVillagersClientIniter::onInitializeClient);
         modContainer.registerConfig(ModConfig.Type.COMMON, CreateEasyVillagersConfig.SPEC);
         modEventBus.addListener(this::onClientSetup);
     }
