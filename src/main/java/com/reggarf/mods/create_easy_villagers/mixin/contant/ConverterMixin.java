@@ -1,5 +1,6 @@
 package com.reggarf.mods.create_easy_villagers.mixin.contant;
 
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import de.maxhenkel.easyvillagers.blocks.tileentity.ConverterTileentity;
@@ -17,7 +18,6 @@ import java.util.List;
 @Mixin(value = ConverterTileentity.class, remap = false)
 public abstract class ConverterMixin implements IHaveGoggleInformation {
 
-    private static final float BASE_STRESS_IMPACT = 6.0f;
     private static final ThreadLocal<Boolean> IS_EXTRA_TICK = ThreadLocal.withInitial(() -> false);
 
     @Inject(method = "tickServer", at = @At("HEAD"), cancellable = true)
@@ -26,7 +26,7 @@ public abstract class ConverterMixin implements IHaveGoggleInformation {
 
         BlockEntity be = (BlockEntity) (Object) this;
         Level level = be.getLevel();
-        if (level == null || level.isClientSide()) {
+        if (level == null) {
             return;
         }
 
@@ -54,6 +54,6 @@ public abstract class ConverterMixin implements IHaveGoggleInformation {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         BlockEntity be = (BlockEntity) (Object) this;
-        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Converter", "Curing Speed", BASE_STRESS_IMPACT);
+        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Converter", "Curing Speed", CreateEasyVillagersConfig.getConverterStress());
     }
 }

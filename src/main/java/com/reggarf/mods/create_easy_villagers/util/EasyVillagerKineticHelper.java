@@ -1,5 +1,6 @@
 package com.reggarf.mods.create_easy_villagers.util;
 
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.utility.CreateLang;
 import net.minecraft.ChatFormatting;
@@ -34,7 +35,14 @@ public class EasyVillagerKineticHelper {
     }
 
     public static int getSpeedMultiplier(float speed) {
-        return (int) (speed / 32);
+        float absSpeed = Math.abs(speed);
+        float minSpeed = CreateEasyVillagersConfig.getMinimumSpeed();
+        if (absSpeed < minSpeed) return 0;
+
+        float rpmPerMultiplier = CreateEasyVillagersConfig.getRpmPerMultiplier();
+        int multiplier = (int) (absSpeed / rpmPerMultiplier);
+        int maxMultiplier = CreateEasyVillagersConfig.getMaxSpeedMultiplier();
+        return Math.min(multiplier, maxMultiplier);
     }
 
     public static boolean addGoggleTooltip(BlockEntity be, List<Component> tooltip, String machineName, String rateLabel, float baseImpact) {

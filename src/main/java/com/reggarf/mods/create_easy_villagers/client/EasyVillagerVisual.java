@@ -1,5 +1,6 @@
 package com.reggarf.mods.create_easy_villagers.client;
 
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityVisual;
@@ -52,7 +53,7 @@ public class EasyVillagerVisual<T extends FakeWorldTileentity> extends AbstractB
         BlockEntity neighbor = level.getBlockEntity(pos.relative(powerSide));
         if (neighbor instanceof KineticBlockEntity kbe && !kbe.isOverStressed()) {
             float speed = kbe.getSpeed();
-            if (Math.abs(speed) >= 32) {
+            if (Math.abs(speed) >= CreateEasyVillagersConfig.getMinimumSpeed()) {
                 float offset = KineticBlockEntityVisual.rotationOffset(kbe.getBlockState(), powerSide.getAxis(), pos) + kbe.getRotationAngleOffset(powerSide.getAxis());
                 rotatingShaft.setRotationAxis(powerSide.getAxis());
                 rotatingShaft.setRotationalSpeed(speed * RotatingInstance.SPEED_MULTIPLIER);

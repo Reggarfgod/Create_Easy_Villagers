@@ -1,5 +1,6 @@
 package com.reggarf.mods.create_easy_villagers.mixin.contant;
 
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import de.maxhenkel.easyvillagers.blocks.tileentity.IronFarmTileentity;
@@ -17,7 +18,6 @@ import java.util.List;
 @Mixin(value = IronFarmTileentity.class, remap = false)
 public abstract class IronFarmMixin implements IHaveGoggleInformation {
 
-    private static final float BASE_STRESS_IMPACT = 8.0f;
     private static final ThreadLocal<Boolean> IS_EXTRA_TICK = ThreadLocal.withInitial(() -> false);
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
@@ -54,6 +54,6 @@ public abstract class IronFarmMixin implements IHaveGoggleInformation {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         BlockEntity be = (BlockEntity) (Object) this;
-        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Iron Farm", "Iron Output Rate", BASE_STRESS_IMPACT);
+        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Iron Farm", "Iron Output Rate", CreateEasyVillagersConfig.getIronFarmStress());
     }
 }

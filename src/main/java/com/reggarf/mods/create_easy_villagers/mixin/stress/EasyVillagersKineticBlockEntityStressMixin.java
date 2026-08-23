@@ -1,5 +1,6 @@
 package com.reggarf.mods.create_easy_villagers.mixin.stress;
 
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.api.stress.BlockStressValues;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,11 +50,17 @@ public abstract class EasyVillagersKineticBlockEntityStressMixin {
                 // If this KineticBlockEntity is directly attached to the block's power socket
                 if (powerSide != null && powerSide == direction.getOpposite()) {
                     if (neighbor instanceof IronFarmTileentity) {
-                        addedStress += 8.0f;
-                    } else if (neighbor instanceof BreederTileentity || neighbor instanceof ConverterTileentity) {
-                        addedStress += 6.0f;
-                    } else if (neighbor instanceof AutoTraderTileentity || neighbor instanceof FarmerTileentity || neighbor instanceof IncubatorTileentity) {
-                        addedStress += 4.0f;
+                        addedStress += CreateEasyVillagersConfig.getIronFarmStress();
+                    } else if (neighbor instanceof ConverterTileentity) {
+                        addedStress += CreateEasyVillagersConfig.getConverterStress();
+                    } else if (neighbor instanceof BreederTileentity) {
+                        addedStress += CreateEasyVillagersConfig.getBreederStress();
+                    } else if (neighbor instanceof AutoTraderTileentity) {
+                        addedStress += CreateEasyVillagersConfig.getAutoTraderStress();
+                    } else if (neighbor instanceof FarmerTileentity) {
+                        addedStress += CreateEasyVillagersConfig.getFarmerStress();
+                    } else if (neighbor instanceof IncubatorTileentity) {
+                        addedStress += CreateEasyVillagersConfig.getIncubatorStress();
                     } else {
                         addedStress += 4.0f;
                     }

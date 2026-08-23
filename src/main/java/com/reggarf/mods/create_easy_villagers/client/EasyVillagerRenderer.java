@@ -2,6 +2,7 @@ package com.reggarf.mods.create_easy_villagers.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityVisual;
@@ -45,7 +46,7 @@ public class EasyVillagerRenderer<T extends FakeWorldTileentity> implements Bloc
         BlockEntity neighbor = be.getLevel().getBlockEntity(be.getBlockPos().relative(powerSide));
         if (neighbor instanceof KineticBlockEntity kbe && !kbe.isOverStressed()) {
             float speed = kbe.getSpeed();
-            if (Math.abs(speed) >= 32) {
+            if (Math.abs(speed) >= CreateEasyVillagersConfig.getMinimumSpeed()) {
                 VertexConsumer vb = buffer.getBuffer(RenderType.solid());
                 
                 float time = AnimationTickHolder.getRenderTime(be.getLevel());
