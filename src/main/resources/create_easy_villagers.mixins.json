@@ -1,0 +1,20 @@
+{
+    "required":  true,
+    "minVersion":  "0.8",
+    "package":  "com.reggarf.mods.create_easy_villagers.mixin",
+    "compatibilityLevel":  "JAVA_21",
+    "mixins":  [
+                   "EasyVillagersKineticMixin",
+                   "EasyVillagersServerTickMixin",
+                   "EasyVillagersKineticBlockEntityStressMixin"
+               ],
+    "client":  [
+                   "ModTileEntitiesClientMixin"
+               ],
+    "injectors":  {
+                      "defaultRequire":  1
+                  },
+    "overwrites":  {
+                       "requireAnnotations":  true
+                   }
+}
