@@ -1,4 +1,4 @@
-package com.reggarf.mods.create_easy_villagers.mixin;
+package com.reggarf.mods.create_easy_villagers.mixin.register;
 
 import de.maxhenkel.easyvillagers.blocks.tileentity.ModTileEntities;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +10,6 @@ import com.reggarf.mods.create_easy_villagers.client.EasyVillagerRenderer;
 import com.reggarf.mods.create_easy_villagers.client.EasyVillagerVisual;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import dev.engine_room.flywheel.api.visualization.VisualizerRegistry;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 
 import de.maxhenkel.easyvillagers.blocks.tileentity.render.AutoTraderRenderer;

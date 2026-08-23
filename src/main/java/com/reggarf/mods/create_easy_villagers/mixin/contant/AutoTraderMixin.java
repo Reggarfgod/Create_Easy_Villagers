@@ -1,9 +1,9 @@
-package com.reggarf.mods.create_easy_villagers.mixin;
+package com.reggarf.mods.create_easy_villagers.mixin.contant;
 
 import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
-import de.maxhenkel.easyvillagers.blocks.tileentity.BreederTileentity;
-import de.maxhenkel.easyvillagers.corelib.blockentity.IServerTickableBlockEntity;
+import de.maxhenkel.easyvillagers.blocks.tileentity.AutoTraderTileentity;
+import de.maxhenkel.easyvillagers.corelib.blockentity.ITickableBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,19 +14,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(value = BreederTileentity.class, remap = false)
-public abstract class BreederMixin implements IHaveGoggleInformation {
+@Mixin(value = AutoTraderTileentity.class, remap = false)
+public abstract class AutoTraderMixin implements IHaveGoggleInformation {
 
-    private static final float BASE_STRESS_IMPACT = 6.0f;
+    private static final float BASE_STRESS_IMPACT = 4.0f;
     private static final ThreadLocal<Boolean> IS_EXTRA_TICK = ThreadLocal.withInitial(() -> false);
 
-    @Inject(method = "tickServer", at = @At("HEAD"), cancellable = true)
-    private void tickBreeder(CallbackInfo ci) {
+    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+    private void tickAutoTrader(CallbackInfo ci) {
         if (IS_EXTRA_TICK.get()) return;
 
         BlockEntity be = (BlockEntity) (Object) this;
         Level level = be.getLevel();
-        if (level == null || level.isClientSide()) {
+        if (level == null) {
             return;
         }
 
@@ -39,11 +39,11 @@ public abstract class BreederMixin implements IHaveGoggleInformation {
         }
 
         int extraTicks = multiplier - 1;
-        if (extraTicks > 0 && be instanceof IServerTickableBlockEntity serverTickable) {
+        if (extraTicks > 0 && be instanceof ITickableBlockEntity tickable) {
             IS_EXTRA_TICK.set(true);
             try {
                 for (int i = 0; i < extraTicks; i++) {
-                    serverTickable.tickServer();
+                    tickable.tick();
                 }
             } finally {
                 IS_EXTRA_TICK.set(false);
@@ -54,6 +54,6 @@ public abstract class BreederMixin implements IHaveGoggleInformation {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         BlockEntity be = (BlockEntity) (Object) this;
-        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Breeder", "Breeding Rate", BASE_STRESS_IMPACT);
+        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Auto Trader", "Trading Speed", BASE_STRESS_IMPACT);
     }
 }

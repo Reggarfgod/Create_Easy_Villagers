@@ -1,8 +1,8 @@
-package com.reggarf.mods.create_easy_villagers.mixin;
+package com.reggarf.mods.create_easy_villagers.mixin.contant;
 
 import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
-import de.maxhenkel.easyvillagers.blocks.tileentity.IncubatorTileentity;
+import de.maxhenkel.easyvillagers.blocks.tileentity.FarmerTileentity;
 import de.maxhenkel.easyvillagers.corelib.blockentity.IServerTickableBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(value = IncubatorTileentity.class, remap = false)
-public abstract class IncubatorMixin implements IHaveGoggleInformation {
+@Mixin(value = FarmerTileentity.class, remap = false)
+public abstract class FarmerMixin implements IHaveGoggleInformation {
 
     private static final float BASE_STRESS_IMPACT = 4.0f;
     private static final ThreadLocal<Boolean> IS_EXTRA_TICK = ThreadLocal.withInitial(() -> false);
 
     @Inject(method = "tickServer", at = @At("HEAD"), cancellable = true)
-    private void tickIncubator(CallbackInfo ci) {
+    private void tickFarmer(CallbackInfo ci) {
         if (IS_EXTRA_TICK.get()) return;
 
         BlockEntity be = (BlockEntity) (Object) this;
@@ -54,6 +54,6 @@ public abstract class IncubatorMixin implements IHaveGoggleInformation {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         BlockEntity be = (BlockEntity) (Object) this;
-        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Incubator", "Growth Rate", BASE_STRESS_IMPACT);
+        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Farmer", "Harvest Rate", BASE_STRESS_IMPACT);
     }
 }

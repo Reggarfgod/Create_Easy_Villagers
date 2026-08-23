@@ -1,8 +1,8 @@
-package com.reggarf.mods.create_easy_villagers.mixin;
+package com.reggarf.mods.create_easy_villagers.mixin.contant;
 
 import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
-import de.maxhenkel.easyvillagers.blocks.tileentity.AutoTraderTileentity;
+import de.maxhenkel.easyvillagers.blocks.tileentity.IronFarmTileentity;
 import de.maxhenkel.easyvillagers.corelib.blockentity.ITickableBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -14,19 +14,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(value = AutoTraderTileentity.class, remap = false)
-public abstract class AutoTraderMixin implements IHaveGoggleInformation {
+@Mixin(value = IronFarmTileentity.class, remap = false)
+public abstract class IronFarmMixin implements IHaveGoggleInformation {
 
-    private static final float BASE_STRESS_IMPACT = 4.0f;
+    private static final float BASE_STRESS_IMPACT = 8.0f;
     private static final ThreadLocal<Boolean> IS_EXTRA_TICK = ThreadLocal.withInitial(() -> false);
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void tickAutoTrader(CallbackInfo ci) {
+    private void tickIronFarm(CallbackInfo ci) {
         if (IS_EXTRA_TICK.get()) return;
 
         BlockEntity be = (BlockEntity) (Object) this;
         Level level = be.getLevel();
-        if (level == null || level.isClientSide()) {
+        if (level == null) {
             return;
         }
 
@@ -54,6 +54,6 @@ public abstract class AutoTraderMixin implements IHaveGoggleInformation {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         BlockEntity be = (BlockEntity) (Object) this;
-        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Auto Trader", "Trading Speed", BASE_STRESS_IMPACT);
+        return EasyVillagerKineticHelper.addGoggleTooltip(be, tooltip, "Iron Farm", "Iron Output Rate", BASE_STRESS_IMPACT);
     }
 }

@@ -1,9 +1,7 @@
-package com.reggarf.mods.create_easy_villagers.mixin;
+package com.reggarf.mods.create_easy_villagers.mixin.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import de.maxhenkel.easyvillagers.blocks.tileentity.IronFarmTileentity;
 import de.maxhenkel.easyvillagers.blocks.tileentity.render.IronFarmRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
