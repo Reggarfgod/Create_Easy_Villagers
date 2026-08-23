@@ -54,7 +54,7 @@ public class EasyVillagerKineticHelper {
         int multiplier = getSpeedMultiplier(speed);
 
         CreateLang.builder()
-                .add(CreateLang.text("Easy Villagers - " + machineName)
+                .add(CreateLang.text("Create Easy Villagers - " + machineName)
                         .style(ChatFormatting.GOLD))
                 .forGoggles(tooltip);
 
