@@ -15,7 +15,8 @@
     "client": [
         "ModTileEntitiesClientMixin",
         "BlockStateModelLoaderMixin",
-        "ModelBakeryMixin"
+        "ModelBakeryMixin",
+        "ConverterRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
