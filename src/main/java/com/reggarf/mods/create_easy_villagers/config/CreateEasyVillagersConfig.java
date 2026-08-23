@@ -11,6 +11,7 @@ public class CreateEasyVillagersConfig {
         public final ModConfigSpec.IntValue maxSpeedMultiplier;
 
         public final ModConfigSpec.DoubleValue globalStressMultiplier;
+
         public final ModConfigSpec.DoubleValue autoTraderStressImpact;
         public final ModConfigSpec.DoubleValue farmerStressImpact;
         public final ModConfigSpec.DoubleValue breederStressImpact;
@@ -36,12 +37,17 @@ public class CreateEasyVillagersConfig {
 
             builder.pop();
 
-            builder.comment("Separate Custom Stress Impact Settings (SU per RPM)")
-                    .push("stress_impact");
+            builder.comment("Global Stress Settings")
+                    .push("global_stress");
 
             globalStressMultiplier = builder
                     .comment("Global multiplier applied to all machine stress values (e.g. 1.0 = standard, 2.0 = double stress for all machines).")
                     .defineInRange("globalStressMultiplier", 1.0D, 0.0D, 100.0D);
+
+            builder.pop();
+
+            builder.comment("Per-Machine Stress Impact Settings (SU per RPM)")
+                    .push("stress_impact");
 
             autoTraderStressImpact = builder
                     .comment("Custom stress impact (SU/RPM) for the Auto Trader.")

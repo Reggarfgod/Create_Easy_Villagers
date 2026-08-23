@@ -16,7 +16,7 @@
   * **Minimum Speed:** Machines require at least **`32 RPM`** to operate (configurable). Below 32 RPM, operations are paused.
   * **Dynamic Speed Multipliers:** Faster rotation speeds directly accelerate production intervals (e.g. $1\times$ at 32 RPM, $2\times$ at 64 RPM, $4\times$ at 128 RPM, $8\times$ at 256 RPM).
 * **Create Flywheel GPU Instancing:** Realistic `SHAFT_QUARTER` models render on the input side with full Flywheel shader support and 22.5° grid angle alignment.
-* **Independent Stress (SU) Controls:** Customize stress (SU) consumption per machine or globally without modifying production speeds.
+* **Independent Stress (SU) Controls:** Customize stress (SU) consumption per machine or globally in separate configuration categories without modifying production speeds.
 * **Engineer's Goggles Support:** Look at any machine with Engineer's Goggles to inspect real-time RPM, SU consumption, and speed multipliers.
 * **Full In-Game Configuration:** Configurable via `config/create_easy_villagers-common.toml` or the in-game Catnip / Create Config UI.
 
@@ -114,10 +114,12 @@ Configuration file is located at `config/create_easy_villagers-common.toml`:
     # Range: 1 ~ 64 (Default: 16)
     maxSpeedMultiplier = 16
 
-[stress_impact]
+[global_stress]
     # Global multiplier applied to all machine stress values (Default: 1.0)
+    # e.g., 2.0 = double stress for all machines, 0.5 = half stress
     globalStressMultiplier = 1.0
 
+[stress_impact]
     # Custom stress impact (SU/RPM) for the Auto Trader (Default: 4.0)
     autoTrader = 4.0
 
