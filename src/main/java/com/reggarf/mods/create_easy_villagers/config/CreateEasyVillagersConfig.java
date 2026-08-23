@@ -10,6 +10,7 @@ public class CreateEasyVillagersConfig {
         public final ModConfigSpec.DoubleValue rpmPerMultiplier;
         public final ModConfigSpec.IntValue maxSpeedMultiplier;
 
+        public final ModConfigSpec.DoubleValue globalStressMultiplier;
         public final ModConfigSpec.DoubleValue autoTraderStressImpact;
         public final ModConfigSpec.DoubleValue farmerStressImpact;
         public final ModConfigSpec.DoubleValue breederStressImpact;
@@ -18,7 +19,7 @@ public class CreateEasyVillagersConfig {
         public final ModConfigSpec.DoubleValue ironFarmStressImpact;
 
         public Common(ModConfigSpec.Builder builder) {
-            builder.comment("Create: Easy Villagers Kinetic Configuration")
+            builder.comment("Kinetic Speed and Multiplier Settings")
                     .push("kinetics");
 
             minimumSpeed = builder
@@ -35,32 +36,36 @@ public class CreateEasyVillagersConfig {
 
             builder.pop();
 
-            builder.comment("Stress Capacity Impact (SU per RPM)")
+            builder.comment("Separate Custom Stress Impact Settings (SU per RPM)")
                     .push("stress_impact");
 
+            globalStressMultiplier = builder
+                    .comment("Global multiplier applied to all machine stress values (e.g. 1.0 = standard, 2.0 = double stress for all machines).")
+                    .defineInRange("globalStressMultiplier", 1.0D, 0.0D, 100.0D);
+
             autoTraderStressImpact = builder
-                    .comment("Stress impact (SU/RPM) for the Auto Trader.")
-                    .defineInRange("autoTrader", 4.0D, 0.0D, 1024.0D);
+                    .comment("Custom stress impact (SU/RPM) for the Auto Trader.")
+                    .defineInRange("autoTrader", 4.0D, 0.0D, 2048.0D);
 
             farmerStressImpact = builder
-                    .comment("Stress impact (SU/RPM) for the Farmer.")
-                    .defineInRange("farmer", 4.0D, 0.0D, 1024.0D);
+                    .comment("Custom stress impact (SU/RPM) for the Farmer.")
+                    .defineInRange("farmer", 4.0D, 0.0D, 2048.0D);
 
             breederStressImpact = builder
-                    .comment("Stress impact (SU/RPM) for the Breeder.")
-                    .defineInRange("breeder", 6.0D, 0.0D, 1024.0D);
+                    .comment("Custom stress impact (SU/RPM) for the Breeder.")
+                    .defineInRange("breeder", 6.0D, 0.0D, 2048.0D);
 
             converterStressImpact = builder
-                    .comment("Stress impact (SU/RPM) for the Converter.")
-                    .defineInRange("converter", 6.0D, 0.0D, 1024.0D);
+                    .comment("Custom stress impact (SU/RPM) for the Converter.")
+                    .defineInRange("converter", 6.0D, 0.0D, 2048.0D);
 
             incubatorStressImpact = builder
-                    .comment("Stress impact (SU/RPM) for the Incubator.")
-                    .defineInRange("incubator", 4.0D, 0.0D, 1024.0D);
+                    .comment("Custom stress impact (SU/RPM) for the Incubator.")
+                    .defineInRange("incubator", 4.0D, 0.0D, 2048.0D);
 
             ironFarmStressImpact = builder
-                    .comment("Stress impact (SU/RPM) for the Iron Farm.")
-                    .defineInRange("ironFarm", 14.0D, 0.0D, 1024.0D);
+                    .comment("Custom stress impact (SU/RPM) for the Iron Farm.")
+                    .defineInRange("ironFarm", 14.0D, 0.0D, 2048.0D);
 
             builder.pop();
         }
@@ -87,27 +92,37 @@ public class CreateEasyVillagersConfig {
         return CONFIG != null && CONFIG.maxSpeedMultiplier != null ? CONFIG.maxSpeedMultiplier.get() : 16;
     }
 
+    public static float getGlobalStressMultiplier() {
+        return CONFIG != null && CONFIG.globalStressMultiplier != null ? CONFIG.globalStressMultiplier.get().floatValue() : 1.0f;
+    }
+
     public static float getAutoTraderStress() {
-        return CONFIG != null && CONFIG.autoTraderStressImpact != null ? CONFIG.autoTraderStressImpact.get().floatValue() : 4.0f;
+        float base = CONFIG != null && CONFIG.autoTraderStressImpact != null ? CONFIG.autoTraderStressImpact.get().floatValue() : 4.0f;
+        return base * getGlobalStressMultiplier();
     }
 
     public static float getFarmerStress() {
-        return CONFIG != null && CONFIG.farmerStressImpact != null ? CONFIG.farmerStressImpact.get().floatValue() : 4.0f;
+        float base = CONFIG != null && CONFIG.farmerStressImpact != null ? CONFIG.farmerStressImpact.get().floatValue() : 4.0f;
+        return base * getGlobalStressMultiplier();
     }
 
     public static float getBreederStress() {
-        return CONFIG != null && CONFIG.breederStressImpact != null ? CONFIG.breederStressImpact.get().floatValue() : 6.0f;
+        float base = CONFIG != null && CONFIG.breederStressImpact != null ? CONFIG.breederStressImpact.get().floatValue() : 6.0f;
+        return base * getGlobalStressMultiplier();
     }
 
     public static float getConverterStress() {
-        return CONFIG != null && CONFIG.converterStressImpact != null ? CONFIG.converterStressImpact.get().floatValue() : 6.0f;
+        float base = CONFIG != null && CONFIG.converterStressImpact != null ? CONFIG.converterStressImpact.get().floatValue() : 6.0f;
+        return base * getGlobalStressMultiplier();
     }
 
     public static float getIncubatorStress() {
-        return CONFIG != null && CONFIG.incubatorStressImpact != null ? CONFIG.incubatorStressImpact.get().floatValue() : 4.0f;
+        float base = CONFIG != null && CONFIG.incubatorStressImpact != null ? CONFIG.incubatorStressImpact.get().floatValue() : 4.0f;
+        return base * getGlobalStressMultiplier();
     }
 
     public static float getIronFarmStress() {
-        return CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 14.0f;
+        float base = CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 14.0f;
+        return base * getGlobalStressMultiplier();
     }
 }

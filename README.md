@@ -16,7 +16,7 @@
   * **Minimum Speed:** Machines require at least **`32 RPM`** to operate (configurable). Below 32 RPM, operations are paused.
   * **Dynamic Speed Multipliers:** Faster rotation speeds directly accelerate production intervals (e.g. $1\times$ at 32 RPM, $2\times$ at 64 RPM, $4\times$ at 128 RPM, $8\times$ at 256 RPM).
 * **Create Flywheel GPU Instancing:** Realistic `SHAFT_QUARTER` models render on the input side with full Flywheel shader support and 22.5° grid angle alignment.
-* **Stress Unit (SU) Network Impact:** Machines put realistic strain on your kinetic network and will halt if the network is overstressed.
+* **Independent Stress (SU) Controls:** Customize stress (SU) consumption per machine or globally without modifying production speeds.
 * **Engineer's Goggles Support:** Look at any machine with Engineer's Goggles to inspect real-time RPM, SU consumption, and speed multipliers.
 * **Full In-Game Configuration:** Configurable via `config/create_easy_villagers-common.toml` or the in-game Catnip / Create Config UI.
 
@@ -44,7 +44,7 @@ $$\text{Speed Multiplier} = \min\left(\left\lfloor \frac{\text{RPM}}{\text{rpmPe
 
 Each machine consumes Stress Units proportional to its rotational speed:
 
-$$\text{Stress Impact (SU)} = \text{Speed (RPM)} \times \text{Base Impact (SU/RPM)}$$
+$$\text{Stress Impact (SU)} = \text{Speed (RPM)} \times \text{Base Impact (SU/RPM)} \times \text{Global Multiplier}$$
 
 ---
 
@@ -115,22 +115,25 @@ Configuration file is located at `config/create_easy_villagers-common.toml`:
     maxSpeedMultiplier = 16
 
 [stress_impact]
-    # Stress impact (SU/RPM) for the Auto Trader (Default: 4.0)
+    # Global multiplier applied to all machine stress values (Default: 1.0)
+    globalStressMultiplier = 1.0
+
+    # Custom stress impact (SU/RPM) for the Auto Trader (Default: 4.0)
     autoTrader = 4.0
 
-    # Stress impact (SU/RPM) for the Farmer (Default: 4.0)
+    # Custom stress impact (SU/RPM) for the Farmer (Default: 4.0)
     farmer = 4.0
 
-    # Stress impact (SU/RPM) for the Breeder (Default: 6.0)
+    # Custom stress impact (SU/RPM) for the Breeder (Default: 6.0)
     breeder = 6.0
 
-    # Stress impact (SU/RPM) for the Converter (Default: 6.0)
+    # Custom stress impact (SU/RPM) for the Converter (Default: 6.0)
     converter = 6.0
 
-    # Stress impact (SU/RPM) for the Incubator (Default: 4.0)
+    # Custom stress impact (SU/RPM) for the Incubator (Default: 4.0)
     incubator = 4.0
 
-    # Stress impact (SU/RPM) for the Iron Farm (Default: 14.0)
+    # Custom stress impact (SU/RPM) for the Iron Farm (Default: 14.0)
     ironFarm = 14.0
 ```
 
