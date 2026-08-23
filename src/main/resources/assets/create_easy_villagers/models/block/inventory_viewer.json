@@ -1,0 +1,7 @@
+{
+  "parent": "create_easy_villagers:block/common_farm",
+  "textures": {
+    "front": "minecraft:block/black_wool",
+    "back": "minecraft:block/black_wool"
+  }
+}

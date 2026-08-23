@@ -1,7 +1,7 @@
 {
-  "parent": "easy_villagers:block/farm",
+  "parent": "create_easy_villagers:block/common_farm",
   "textures": {
-    "front": "create:block/brass_block",
-    "back": "create:block/brass_block"
+    "front": "minecraft:block/iron_block",
+    "back": "minecraft:block/iron_block"
   }
 }
