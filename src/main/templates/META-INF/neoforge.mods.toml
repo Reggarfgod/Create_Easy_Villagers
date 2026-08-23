@@ -68,7 +68,7 @@ side = "BOTH"
 modId = "minecraft"
 type = "required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "[1.1.42,)"
+versionRange = "${minecraft_version_range}"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -82,7 +82,14 @@ side = "BOTH"
 modId = "easy_villagers"
 type = "required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "${minecraft_version_range}"
+versionRange = "${easy_villagers_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies."${mod_id}"]]
+modId = "create"
+type = "required"
+# This version range declares a minimum of the current minecraft version up to but not including the next major version
+versionRange = "${create_version_range}"
+ordering = "NONE"
+side = "BOTH"
