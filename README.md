@@ -5,7 +5,7 @@
 [![Easy Villagers](https://img.shields.io/badge/Easy%20Villagers-1.21.1-green.svg)](https://curseforge.com/minecraft/mc-mods/easy-villagers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Create Easy Villagers** is a NeoForge add-on mod bridging [Create](https://curseforge.com/minecraft/mc-mods/create) and [Easy Villagers](https://curseforge.com/minecraft/mc-mods/easy-villagers). It balances all automated Easy Villagers machines by requiring rotational kinetic stress units (SU) from Create networks, complete with authentic spinning shaft visuals, Flywheel GPU instancing, and Engineer's Goggles diagnostics.
+**Create Easy Villagers** is a NeoForge add-on mod bridging [Create](https://curseforge.com/minecraft/mc-mods/create) and [Easy Villagers](https://curseforge.com/minecraft/mc-mods/easy-villagers). It balances automated Easy Villagers machines by requiring rotational kinetic stress units (SU) from Create networks, complete with authentic spinning shaft visuals, Flywheel GPU instancing, in-game Catnip configuration, and Engineer's Goggles diagnostics.
 
 ---
 
@@ -13,36 +13,136 @@
 
 * **Kinetic Power Requirement:** Easy Villagers machines require rotational force supplied to the power port at the rear of the block.
 * **Speed Thresholds & Scaling:**
-  * **Minimum Speed:** Machines require at least **`32 RPM`** to function.
+  * **Minimum Speed:** Machines require at least **`32 RPM`** to operate (configurable). Below 32 RPM, operations are paused.
   * **Dynamic Speed Multipliers:** Faster rotation speeds directly accelerate production intervals (e.g. $1\times$ at 32 RPM, $2\times$ at 64 RPM, $4\times$ at 128 RPM, $8\times$ at 256 RPM).
-* **Create Flywheel GPU Instancing:** Realistic `SHAFT_HALF` models render on the input side with full Flywheel shader support and 22.5° grid angle alignment.
-* **Stress Unit (SU) Network Impact:** Machines put realistic strain on your kinetic network and will stop if the network is overstressed.
+* **Create Flywheel GPU Instancing:** Realistic `SHAFT_QUARTER` models render on the input side with full Flywheel shader support and 22.5° grid angle alignment.
+* **Stress Unit (SU) Network Impact:** Machines put realistic strain on your kinetic network and will halt if the network is overstressed.
 * **Engineer's Goggles Support:** Look at any machine with Engineer's Goggles to inspect real-time RPM, SU consumption, and speed multipliers.
+* **Full In-Game Configuration:** Configurable via `config/create_easy_villagers-common.toml` or the in-game Catnip / Create Config UI.
 
 ---
 
-## 🏭 Supported Machines & Behaviors
+## 📊 Speed Scaling & Multiplier Chart
 
-| Machine | Base Stress Impact | Speed Scaling Behavior | Goggles Diagnostic |
-| :--- | :--- | :--- | :--- |
-| **Auto Trader** | `4.0 SU / RPM` | Accelerates trading cooldown between automated trades | `Trading Speed` |
-| **Iron Farm** | `8.0 SU / RPM` | Accelerates Iron Golem spawn and processing cycles | `Iron Output Rate` |
-| **Farmer** | `4.0 SU / RPM` | Drives crop growth rate and automatic harvesting *(Requires Farmer Villager)* | `Harvest Rate` |
-| **Breeder** | `6.0 SU / RPM` | Decreases breeding interval and accelerates child generation | `Breeding Rate` |
-| **Converter** | `6.0 SU / RPM` | Speeds up the zombie infection and golden apple curing process | `Curing Speed` |
-| **Incubator** | `4.0 SU / RPM` | Speeds up baby villager maturation into adulthood | `Growth Rate` |
+The production rate is calculated dynamically from the shaft speed:
+
+$$\text{Speed Multiplier} = \min\left(\left\lfloor \frac{\text{RPM}}{\text{rpmPerMultiplier}} \right\rfloor, \text{maxMultiplier}\right)$$
+
+*(By default: $\text{rpmPerMultiplier} = 32$, $\text{maxMultiplier} = 16$)*
+
+| Speed (RPM) | Multiplier | Operation Speed | Efficiency Boost |
+| :---: | :---: | :---: | :---: |
+| **< 32 RPM** | **0×** | *Halted / Idle* | *No production* |
+| **32 RPM** | **1×** | Standard Baseline | Baseline (100%) |
+| **64 RPM** | **2×** | **2× faster** | 200% Output |
+| **128 RPM** | **4×** | **4× faster** | 400% Output |
+| **256 RPM** *(Max Create)* | **8×** | **8× faster** | **800% Output** |
 
 ---
 
-## 📦 Required Dependencies & Mods Used
+## 🏭 Machine Breakdown & SU Consumption
 
-To run **Create Easy Villagers**, the following mods are required:
+Each machine consumes Stress Units proportional to its rotational speed:
 
-1. **[NeoForge](https://neoforged.net/)** (Version `21.1.248` or compatible for Minecraft `1.21.1`)
-2. **[Create](https://curseforge.com/minecraft/mc-mods/create)** (Version `6.0.10+`)
-3. **[Easy Villagers](https://curseforge.com/minecraft/mc-mods/easy-villagers)** by Henkelmax
-4. **[Flywheel](https://curseforge.com/minecraft/mc-mods/flywheel)** (Included with Create)
-5. **[Ponder](https://curseforge.com/minecraft/mc-mods/ponder)** (Included with Create)
+$$\text{Stress Impact (SU)} = \text{Speed (RPM)} \times \text{Base Impact (SU/RPM)}$$
+
+---
+
+### 1. 🪙 Auto Trader
+* **Base Stress Impact:** `4.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`1,024 SU`**
+* **Effect:** Accelerates automated villager trade cooldowns. At **256 RPM (8×)**, trades execute **8 times faster** as long as items and restocks are available.
+* **Goggles Diagnostic:** `Trading Speed`
+
+---
+
+### 2. 🌾 Farmer
+* **Base Stress Impact:** `4.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`1,024 SU`**
+* **Effect:** Drives crop growth ticks and auto-harvest cycles. At **256 RPM (8×)**, crops grow and yield harvest **8 times faster**.
+* **Goggles Diagnostic:** `Farming Speed`
+
+---
+
+### 3. 👶 Breeder
+* **Base Stress Impact:** `6.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`1,536 SU`**
+* **Effect:** Decreases the breeding cooldown timer and accelerates baby villager generation. At **256 RPM (8×)**, baby villagers are produced **8 times faster** (provided food is supplied).
+* **Goggles Diagnostic:** `Breeding Speed`
+
+---
+
+### 4. 🧪 Converter
+* **Base Stress Impact:** `6.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`1,536 SU`**
+* **Effect:** Drastically shortens both the zombie villager infection time and the golden apple curing countdown. A process normally taking 3–5 minutes finishes in **~20–35 seconds (8× faster)** at 256 RPM.
+* **Goggles Diagnostic:** `Curing Speed`
+
+---
+
+### 5. 🍼 Incubator
+* **Base Stress Impact:** `4.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`1,024 SU`**
+* **Effect:** Accelerates the baby villager maturation timer into an adult. At **256 RPM (8×)**, baby villagers grow into working adults **8 times faster**.
+* **Goggles Diagnostic:** `Aging Speed`
+
+---
+
+### 6. ⚔️ Iron Farm
+* **Base Stress Impact:** `8.0 SU / RPM`
+* **Default Stress at 256 RPM:** **`2,048 SU`**
+* **Effect:** Accelerates Iron Golem scare, spawn, and processing intervals. A cycle normally taking ~5 minutes (300 seconds) completes every **~37.5 seconds (8× faster)** at 256 RPM, generating **8 times more iron**.
+* **Goggles Diagnostic:** `Iron Output Rate`
+
+---
+
+## ⚙️ Configuration Options
+
+Configuration file is located at `config/create_easy_villagers-common.toml`:
+
+```toml
+[kinetics]
+    # Minimum RPM required for Easy Villagers machines to operate.
+    # Range: 0.0 ~ 256.0 (Default: 32.0)
+    minimumSpeed = 32.0
+
+    # RPM required for each +1x processing speed multiplier.
+    # Range: 1.0 ~ 256.0 (Default: 32.0)
+    rpmPerMultiplier = 32.0
+
+    # Maximum processing speed multiplier cap.
+    # Range: 1 ~ 64 (Default: 16)
+    maxSpeedMultiplier = 16
+
+[stress_impact]
+    # Stress impact (SU/RPM) for the Auto Trader (Default: 4.0)
+    autoTrader = 4.0
+
+    # Stress impact (SU/RPM) for the Farmer (Default: 4.0)
+    farmer = 4.0
+
+    # Stress impact (SU/RPM) for the Breeder (Default: 6.0)
+    breeder = 6.0
+
+    # Stress impact (SU/RPM) for the Converter (Default: 6.0)
+    converter = 6.0
+
+    # Stress impact (SU/RPM) for the Incubator (Default: 4.0)
+    incubator = 4.0
+
+    # Stress impact (SU/RPM) for the Iron Farm (Default: 8.0)
+    ironFarm = 8.0
+```
+
+---
+
+## 📦 Required Dependencies & Compatibility
+
+1. **[NeoForge](https://neoforged.net/)** (`21.1.248+` for Minecraft `1.21.1`)
+2. **[Create](https://curseforge.com/minecraft/mc-mods/create)** (`6.0.10+`)
+3. **[Easy Villagers](https://curseforge.com/minecraft/mc-mods/easy-villagers)** (`1.21.1+`)
+4. **[Flywheel](https://curseforge.com/minecraft/mc-mods/flywheel)** (bundled with Create)
+5. **[Ponder](https://curseforge.com/minecraft/mc-mods/ponder)** (bundled with Create)
 
 ---
 
