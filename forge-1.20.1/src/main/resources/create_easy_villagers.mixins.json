@@ -1,0 +1,27 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.reggarf.mods.create_easy_villagers.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "contant.IronFarmMixin",
+        "contant.AutoTraderMixin",
+        "contant.FarmerMixin",
+        "contant.BreederMixin",
+        "contant.ConverterMixin",
+        "contant.IncubatorMixin",
+        "stress.EasyVillagersKineticBlockEntityStressMixin"
+    ],
+    "client": [
+        "register.ModTileEntitiesClientMixin",
+        "model.ModelBakeryMixin",
+        "renderer.ConverterRendererMixin",
+        "renderer.IronFarmRendererMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "overwrites": {
+        "requireAnnotations": true
+    }
+}

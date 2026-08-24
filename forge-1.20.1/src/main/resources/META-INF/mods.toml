@@ -1,0 +1,43 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Reggarfgod/Create_Easy_Villagers/issues" #optional
+
+[[mods]]
+modId = "${mod_id}" #mandatory
+version = "${mod_version}" #mandatory
+displayName = "${mod_name}" #mandatory
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+displayURL="https://reggarf-mods.vercel.app/" #optional
+logoFile="logo.png"
+#credits="" #optional
+authors = "${mod_authors}" #optional
+description = '''${mod_description}'''
+
+[[dependencies."${mod_id}"]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId="create"
+    mandatory=true
+    versionRange="[6.0.8,6.1.0)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId="easy_villagers"
+    mandatory=true
+    versionRange="[1.20.1-1.0.0,)"
+    ordering="NONE"
+    side="BOTH"
