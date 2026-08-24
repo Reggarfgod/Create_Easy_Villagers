@@ -1,0 +1,36 @@
+name: Sync README to CurseForge
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - Neo-1.21.1-dev
+    paths:
+      - 'README.md'
+      - '.github/workflows/update-description.yml'
+  workflow_dispatch:
+
+jobs:
+  update-description:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read Project ID from gradle.properties
+        id: cf_config
+        run: |
+          CF_ID=$(grep -E "^curseforge_project_id=" gradle.properties | cut -d'=' -f2 | tr -d ' \r\n' || true)
+          if [ -z "$CF_ID" ]; then
+            CF_ID="create-easy-villagers"
+          fi
+          echo "project_id=$CF_ID" >> $GITHUB_OUTPUT
+
+      - name: Update CurseForge Description
+        uses: Kir-Antipov/update-mod-description@v3
+        with:
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-id: ${{ steps.cf_config.outputs.project_id }}
+          curseforge-description-mode: replace
+          path: README.md
