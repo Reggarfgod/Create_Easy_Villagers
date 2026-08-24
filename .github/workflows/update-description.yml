@@ -1,22 +1,28 @@
-name: Sync README to CurseForge
+name: Publish to CurseForge
 
 on:
-  push:
-    branches:
-      - main
-      - master
-      - Neo-1.21.1-dev
-    paths:
-      - 'README.md'
-      - '.github/workflows/update-description.yml'
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
-  update-description:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build mod JAR
+        run: ./gradlew build --no-daemon
 
       - name: Read Project ID from gradle.properties
         id: cf_config
@@ -27,10 +33,12 @@ jobs:
           fi
           echo "project_id=$CF_ID" >> $GITHUB_OUTPUT
 
-      - name: Update CurseForge Description
-        uses: Kir-Antipov/update-mod-description@v3
+      - name: Publish to CurseForge
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-id: ${{ steps.cf_config.outputs.project_id }}
-          curseforge-description-mode: replace
-          path: README.md
+          game-versions: 1.21.1
+          loaders: neoforge
+          files: build/libs/!(*-sources|*-javadoc|*-dev).jar
+          changelog: ${{ github.event.release.body || 'Initial release' }}
