@@ -1,6 +1,7 @@
 package com.reggarf.mods.create_easy_villagers;
 
 import com.mojang.logging.LogUtils;
+import com.reggarf.mods.create_easy_villagers.api.MessagePlugin;
 import com.reggarf.mods.create_easy_villagers.client.ModPartialModels;
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersClientIniter;
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
@@ -20,6 +21,7 @@ public class Create_easy_villagers {
         modEventBus.addListener(CreateEasyVillagersClientIniter::onInitializeClient);
         modContainer.registerConfig(ModConfig.Type.COMMON, CreateEasyVillagersConfig.SPEC);
         modEventBus.addListener(this::onClientSetup);
+        MessagePlugin.register();
     }
 
     private void onClientSetup(FMLClientSetupEvent event) {

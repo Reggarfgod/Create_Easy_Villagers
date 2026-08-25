@@ -19,6 +19,8 @@ public class CreateEasyVillagersConfig {
         public final ForgeConfigSpec.DoubleValue incubatorStressImpact;
         public final ForgeConfigSpec.DoubleValue ironFarmStressImpact;
 
+        public final ForgeConfigSpec.BooleanValue messagesEnabled;
+
         public Common(ForgeConfigSpec.Builder builder) {
             builder.comment("Kinetic Speed and Multiplier Settings")
                     .push("kinetics");
@@ -72,6 +74,15 @@ public class CreateEasyVillagersConfig {
             ironFarmStressImpact = builder
                     .comment("Custom stress impact (SU/RPM) for the Iron Farm.")
                     .defineInRange("ironFarm", 6.0D, 0.0D, 2048.0D);
+
+            builder.pop();
+
+            builder.comment("Join / Notification Message Settings")
+                    .push("messages");
+
+            messagesEnabled = builder
+                    .comment("Enable or disable join/welcome messages from Better Library.")
+                    .define("enabled", true);
 
             builder.pop();
         }
@@ -130,5 +141,9 @@ public class CreateEasyVillagersConfig {
     public static float getIronFarmStress() {
         float base = CONFIG != null && CONFIG.ironFarmStressImpact != null ? CONFIG.ironFarmStressImpact.get().floatValue() : 6.0f;
         return base * getGlobalStressMultiplier();
+    }
+
+    public static boolean areMessagesEnabled() {
+        return CONFIG != null && CONFIG.messagesEnabled != null ? CONFIG.messagesEnabled.get() : true;
     }
 }
