@@ -1,8 +1,10 @@
 package com.reggarf.mods.create_easy_villagers.config;
 
 import com.reggarf.mods.create_easy_villagers.Create_easy_villagers;
+import com.reggarf.mods.create_easy_villagers.client.AutoTraderGuiEvents;
 import net.createmod.catnip.config.ui.BaseConfigScreen;
 import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -13,5 +15,7 @@ public class CreateEasyVillagersClient {
                 ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory((mc, previous) -> new BaseConfigScreen(previous, Create_easy_villagers.MODID))
         );
+
+        MinecraftForge.EVENT_BUS.register(new AutoTraderGuiEvents());
     }
 }

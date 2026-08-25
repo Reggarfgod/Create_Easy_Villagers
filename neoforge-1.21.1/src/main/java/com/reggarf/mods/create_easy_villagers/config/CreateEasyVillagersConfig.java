@@ -10,6 +10,8 @@ public class CreateEasyVillagersConfig {
         public final ModConfigSpec.DoubleValue rpmPerMultiplier;
         public final ModConfigSpec.IntValue maxSpeedMultiplier;
 
+        public final ModConfigSpec.IntValue breederBreedingTime;
+
         public final ModConfigSpec.DoubleValue globalStressMultiplier;
 
         public final ModConfigSpec.DoubleValue autoTraderStressImpact;
@@ -36,6 +38,10 @@ public class CreateEasyVillagersConfig {
             maxSpeedMultiplier = builder
                     .comment("Maximum processing speed multiplier cap.")
                     .defineInRange("maxSpeedMultiplier", 16, 1, 64);
+
+            breederBreedingTime = builder
+                    .comment("Base breeding time in ticks required to produce one baby villager (Default: 3600 ticks = 3 minutes). Reduced dynamically by kinetic speed.")
+                    .defineInRange("breederBreedingTime", 3600, 20, 72000);
 
             builder.pop();
 
@@ -107,6 +113,10 @@ public class CreateEasyVillagersConfig {
 
     public static int getMaxSpeedMultiplier() {
         return CONFIG != null && CONFIG.maxSpeedMultiplier != null ? CONFIG.maxSpeedMultiplier.get() : 16;
+    }
+
+    public static int getBreederBreedingTime() {
+        return CONFIG != null && CONFIG.breederBreedingTime != null ? CONFIG.breederBreedingTime.get() : 3600;
     }
 
     public static float getGlobalStressMultiplier() {

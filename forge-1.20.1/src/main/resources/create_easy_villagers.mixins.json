@@ -5,11 +5,13 @@
     "compatibilityLevel": "JAVA_17",
     "mixins": [
         "contant.IronFarmMixin",
-        "contant.AutoTraderMixin",
+        "contant.autotrader.AutoTraderMixin",
         "contant.FarmerMixin",
         "contant.BreederMixin",
         "contant.ConverterMixin",
         "contant.IncubatorMixin",
+        "contant.autotrader.gui.GuiEventsMixin",
+        "contant.autotrader.AutoTraderContainerMixin",
         "stress.EasyVillagersKineticBlockEntityStressMixin"
     ],
     "client": [

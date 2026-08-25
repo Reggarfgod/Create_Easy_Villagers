@@ -5,16 +5,18 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "contant.IronFarmMixin",
-        "contant.AutoTraderMixin",
+      "contant.autotrader.AutoTraderMixin",
         "contant.FarmerMixin",
         "contant.BreederMixin",
         "contant.ConverterMixin",
         "contant.IncubatorMixin",
+      "contant.autotrader.gui.GuiEventsMixin",
+      "contant.autotrader.AutoTraderContainerMixin",
         "stress.EasyVillagersKineticBlockEntityStressMixin"
     ],
     "client": [
         "register.ModTileEntitiesClientMixin",
-      "model.BlockStateModelLoaderMixin",
+        "model.BlockStateModelLoaderMixin",
         "model.ModelBakeryMixin",
         "renderer.ConverterRendererMixin",
         "renderer.IronFarmRendererMixin"
