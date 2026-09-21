@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(value = ConverterRenderer.class, remap = false)
+@Mixin(ConverterRenderer.class)
 public abstract class ConverterRendererMixin {
 
     @Redirect(

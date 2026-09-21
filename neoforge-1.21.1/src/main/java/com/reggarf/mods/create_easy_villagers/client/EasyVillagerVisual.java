@@ -1,6 +1,7 @@
 package com.reggarf.mods.create_easy_villagers.client;
 
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
+import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityVisual;
 import com.simibubi.create.content.kinetics.base.RotatingInstance;
@@ -12,8 +13,6 @@ import dev.engine_room.flywheel.lib.model.Models;
 import dev.engine_room.flywheel.lib.visual.AbstractBlockEntityVisual;
 import dev.engine_room.flywheel.lib.visual.SimpleTickableVisual;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.function.Consumer;
 
@@ -30,9 +29,7 @@ public class EasyVillagerVisual<T extends FakeWorldTileentity> extends AbstractB
     public EasyVillagerVisual(VisualizationContext context, T blockEntity, float partialTick) {
         super(context, blockEntity, partialTick);
 
-        if (blockState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-            powerSide = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-        }
+        powerSide = EasyVillagerKineticHelper.getPowerSide(blockEntity);
 
         if (powerSide != null) {
             rotatingShaft = instancerProvider().instancer(
@@ -49,8 +46,8 @@ public class EasyVillagerVisual<T extends FakeWorldTileentity> extends AbstractB
     private void updateSpeed() {
         if (powerSide == null || rotatingShaft == null) return;
 
-        BlockEntity neighbor = level.getBlockEntity(pos.relative(powerSide));
-        if (neighbor instanceof KineticBlockEntity kbe && !kbe.isOverStressed()) {
+        KineticBlockEntity kbe = EasyVillagerKineticHelper.getConnectedKinetic(blockEntity);
+        if (kbe != null && !kbe.isOverStressed()) {
             float speed = kbe.getSpeed();
             if (Math.abs(speed) >= CreateEasyVillagersConfig.getMinimumSpeed()) {
                 float offset = KineticBlockEntityVisual.rotationOffset(kbe.getBlockState(), powerSide.getAxis(), pos) + kbe.getRotationAngleOffset(powerSide.getAxis());
@@ -61,6 +58,8 @@ public class EasyVillagerVisual<T extends FakeWorldTileentity> extends AbstractB
                 return;
             }
         }
+
+        rotatingShaft.setRotationAxis(powerSide.getAxis());
         rotatingShaft.setRotationalSpeed(0);
         rotatingShaft.setRotationOffset(0);
         rotatingShaft.setChanged();

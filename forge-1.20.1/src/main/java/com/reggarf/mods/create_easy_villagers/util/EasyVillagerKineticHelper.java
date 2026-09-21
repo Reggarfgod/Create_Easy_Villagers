@@ -1,6 +1,7 @@
 package com.reggarf.mods.create_easy_villagers.util;
 
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
+import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.utility.CreateLang;
 import net.minecraft.ChatFormatting;
@@ -9,27 +10,45 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.List;
 
 public class EasyVillagerKineticHelper {
 
-    public static float getKineticSpeed(BlockEntity be) {
-        Level level = be.getLevel();
-        if (level == null) return 0f;
-
-        BlockPos pos = be.getBlockPos();
-        Direction powerSide = null;
-        if (be.getBlockState().hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-            powerSide = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
+    public static Direction getPowerSide(BlockEntity be) {
+        if (be != null && be.getBlockState().hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
+            return be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
         }
+        return null;
+    }
 
-        if (powerSide != null) {
-            BlockEntity neighbor = level.getBlockEntity(pos.relative(powerSide));
-            if (neighbor instanceof KineticBlockEntity kbe && !kbe.isOverStressed()) {
-                return Math.abs(kbe.getSpeed());
+    public static KineticBlockEntity getConnectedKinetic(BlockEntity be) {
+        Level level = be.getLevel();
+        if (level == null) return null;
+
+        Direction powerSide = getPowerSide(be);
+        if (powerSide == null) return null;
+
+        BlockPos neighborPos = be.getBlockPos().relative(powerSide);
+        BlockEntity neighbor = level.getBlockEntity(neighborPos);
+        if (neighbor instanceof KineticBlockEntity kbe) {
+            BlockState neighborState = neighbor.getBlockState();
+            Direction faceTowardsMachine = powerSide.getOpposite();
+            if (neighborState.getBlock() instanceof IRotate rotate
+                    && rotate.hasShaftTowards(level, neighborPos, neighborState, faceTowardsMachine)
+                    && rotate.getRotationAxis(neighborState) == powerSide.getAxis()) {
+                return kbe;
             }
+        }
+        return null;
+    }
+
+    public static float getKineticSpeed(BlockEntity be) {
+        KineticBlockEntity kbe = getConnectedKinetic(be);
+        if (kbe != null && !kbe.isOverStressed()) {
+            return Math.abs(kbe.getSpeed());
         }
         return 0f;
     }

@@ -1,6 +1,8 @@
 package com.reggarf.mods.create_easy_villagers.mixin.stress;
 
 import com.reggarf.mods.create_easy_villagers.config.CreateEasyVillagersConfig;
+import com.reggarf.mods.create_easy_villagers.util.EasyVillagerKineticHelper;
+import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.api.stress.BlockStressValues;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +23,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(value = KineticBlockEntity.class, remap = false)
 public abstract class EasyVillagersKineticBlockEntityStressMixin {
@@ -35,17 +37,21 @@ public abstract class EasyVillagersKineticBlockEntityStressMixin {
         Level level = self.getLevel();
         if (level == null) return;
 
+        BlockState selfState = self.getBlockState();
+        if (!(selfState.getBlock() instanceof IRotate rotate)) return;
+
         float impact = (float) BlockStressValues.getImpact(getStressConfigKey());
         float addedStress = 0f;
 
         for (Direction direction : Direction.values()) {
+            if (!rotate.hasShaftTowards(level, self.getBlockPos(), selfState, direction)
+                    || rotate.getRotationAxis(selfState) != direction.getAxis()) {
+                continue;
+            }
+
             BlockEntity neighbor = level.getBlockEntity(self.getBlockPos().relative(direction));
             if (neighbor instanceof FakeWorldTileentity evTile) {
-                
-                Direction powerSide = null;
-                if (evTile.getBlockState().hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-                    powerSide = evTile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-                }
+                Direction powerSide = EasyVillagerKineticHelper.getPowerSide(evTile);
 
                 // If this KineticBlockEntity is directly attached to the block's power socket
                 if (powerSide != null && powerSide == direction.getOpposite()) {
