@@ -2,7 +2,7 @@
 
 All notable changes to **Create Easy Villagers** will be documented in this file.
 
-## [1.1.1] - 2026-09-21
+## [1.1.2] - 2026-09-21
 
 ### Fixed
 * **Dedicated Server Crash**: Fixed a crash when launching on dedicated servers caused by client screen classes loading on the server.
