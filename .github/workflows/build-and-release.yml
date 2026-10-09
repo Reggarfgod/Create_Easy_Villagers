@@ -3,10 +3,13 @@ name: Build and Release
 on:
   push:
     branches:
-      - main      # Change to 'master' if your default branch is master
+      - Multi-dev
+      - main
     paths-ignore:
       - '**.md'
       - '.github/ISSUE_TEMPLATE/**'
+      - '*.bbmodel'
+      - '*.psd'
   workflow_dispatch:
 
 permissions:
@@ -46,12 +49,14 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Set up Java
+      - name: Set up Java 21 & 17
         if: steps.check_tag.outputs.exists == 'false'
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21' # Use '21' for 1.20.5+ / 1.21+, change to '17' if this branch is 1.20.1
+          java-version: |
+            21
+            17
 
       - name: Setup Gradle
         if: steps.check_tag.outputs.exists == 'false'
@@ -61,12 +66,25 @@ jobs:
         if: steps.check_tag.outputs.exists == 'false'
         run: chmod +x gradlew
 
-      - name: Build mod with Gradle
+      - name: Build all loaders with Gradle
         if: steps.check_tag.outputs.exists == 'false'
         run: |
-          # Strip local user machine Java paths from gradle.properties before building
+          # Strip any local Windows java.home paths if present in gradle.properties
           sed -i '/^org\.gradle\.java\.home/d' gradle.properties
           ./gradlew build --no-daemon
+
+      - name: Collect Release Artifacts
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          mkdir -p release_artifacts
+          # Find all loader output JARs excluding sources and dev/javadoc jars
+          find . -maxdepth 3 -type f -path "*/build/libs/*.jar" \
+            ! -name "*sources*" \
+            ! -name "*javadoc*" \
+            ! -name "*dev*" \
+            -exec cp {} release_artifacts/ \;
+          echo "Collected files for release:"
+          ls -l release_artifacts/
 
       - name: Generate Changelog
         if: steps.check_tag.outputs.exists == 'false'
@@ -86,10 +104,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.mod_info.outputs.tag }}
-          name: Create Easy Villagers ${{ steps.mod_info.outputs.version }}
+          name: Release ${{ steps.mod_info.outputs.version }}
           body_path: CHANGELOG.md
-          files: |
-            build/libs/*[!sources|!javadoc].jar
+          files: release_artifacts/*.jar
           draft: false
           prerelease: false
         env:
