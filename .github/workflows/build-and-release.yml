@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
@@ -69,7 +69,6 @@ jobs:
       - name: Build all loaders with Gradle
         if: steps.check_tag.outputs.exists == 'false'
         run: |
-          # Strip any local Windows java.home paths if present in gradle.properties
           sed -i '/^org\.gradle\.java\.home/d' gradle.properties
           ./gradlew build --no-daemon
 
@@ -77,14 +76,35 @@ jobs:
         if: steps.check_tag.outputs.exists == 'false'
         run: |
           mkdir -p release_artifacts
-          # Find all loader output JARs excluding sources and dev/javadoc jars
-          find . -maxdepth 3 -type f -path "*/build/libs/*.jar" \
-            ! -name "*sources*" \
-            ! -name "*javadoc*" \
-            ! -name "*dev*" \
-            -exec cp {} release_artifacts/ \;
-          echo "Collected files for release:"
-          ls -l release_artifacts/
+
+          # Helper function to collect and uniquely rename jars from subprojects
+          collect_jars() {
+            local dir="$1"
+            if [ -d "$dir/build/libs" ]; then
+              for jar in "$dir"/build/libs/*.jar; do
+                if [ -f "$jar" ]; then
+                  filename=$(basename "$jar")
+                  # Skip sources, dev, and javadoc jars
+                  if [[ "$filename" == *"-sources"* ]] || [[ "$filename" == *"-javadoc"* ]] || [[ "$filename" == *"-dev"* ]]; then
+                    continue
+                  fi
+                  # Prepend loader folder name if not already in the filename
+                  if [[ "$filename" != *"$dir"* ]]; then
+                    cp "$jar" "release_artifacts/${dir}-${filename}"
+                  else
+                    cp "$jar" "release_artifacts/${filename}"
+                  fi
+                fi
+              done
+            fi
+          }
+
+          collect_jars "forge-1.20.1"
+          collect_jars "neoforge-1.21.1"
+          collect_jars "fabric-1.20.1"
+
+          echo "Collected release artifacts:"
+          ls -lh release_artifacts/
 
       - name: Generate Changelog
         if: steps.check_tag.outputs.exists == 'false'
